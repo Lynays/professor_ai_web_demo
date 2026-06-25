@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js">
+</script>
+<meta charset="UTF-8">
+<title>Professor AI</title>
+<style>
+body{
+    max-width:900px;
+    margin:auto;
+    font-family:Arial,sans-serif;
+    padding:20px;
+}
+textarea{
+    width:100%;
+    height:120px;
+}
+.result{
+    white-space:pre-wrap;
+    border:1px solid #ccc;
+    padding:15px;
+    margin-top:20px;
+}
+</style>
+</head>
+<body>
+
+<h1>Professor AI</h1>
+
+<form action="/teach" method="post" enctype="multipart/form-data">
+    <p>授课要求：</p>
+    <textarea name="user_request"></textarea>
+
+    <p>上传 PDF：</p>
+    <input type="file" name="pdf_file" accept=".pdf">
+
+    <br><br>
+    <button type="submit" onclick="this.innerText='生成中，请稍候...'">开始生成课程</button>
+    
+</form>
+
+{% if result %}
+<div id="result-box"></div>
+<script>
+    const rawResult = {{ result | tojson }};
+    document.getElementById("result-box").innerHTML = marked.parse(rawResult);
+</script>
+{% endif %}
+
+</body>
+</html>
